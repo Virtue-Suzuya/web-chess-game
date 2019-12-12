@@ -44,7 +44,7 @@ var updateboard = function() { //                   FETCH CURRENT BOARD FROM API
   
 }
 
-var conversion = function(val) {
+var conversion = function(val) { // convert number to letter
   let rows = ["a", "b", "c", "d", "e", "f", "g", "h"]
   
   return rows[val];
@@ -94,24 +94,24 @@ setInterval(
 );
 */
 
-let piecemoved;
+let piecemoved; // when you click a piece
 
 function draw() {
-  for (let i = 0; i < tiles.length; i++) {
+  for (let i = 0; i < tiles.length; i++) { // draw tiles
     tiles[i].display();
   }
   
-  for (let i = 0; i < pieces.length; i++) {
+  for (let i = 0; i < pieces.length; i++) { // draw pieces
     pieces[i].display();
   }
   
 }
 
-let sss;
+let sss; // initial piece clicked
 
 function mousePressed() {
   for (let i = 0; i < pieces.length; i++) {
-    if (mouseX > pieces[i].x && mouseX < pieces[i].x + size && mouseY > pieces[i].y && mouseY < pieces[i].y + size) {
+    if (mouseX > pieces[i].x && mouseX < pieces[i].x + size && mouseY > pieces[i].y && mouseY < pieces[i].y + size) { // select piece
       pieces[i].x = mouseX-size/2;
       pieces[i].y = mouseY-size/2;
       piecemoved = i;
@@ -119,29 +119,33 @@ function mousePressed() {
     }
   }
 }
-function mouseDragged() {
+function mouseDragged() { // draw selected piece
   pieces[sss].x = mouseX-size/2;
   pieces[sss].y = mouseY-size/2;
 }
 
-function mouseReleased() {
+function mouseReleased() { // update chess.js board
+  // selected piece
   let p = pieces[piecemoved];
   
+  // initial location
   let prevr = Math.floor((p.intx+size/2)/size);
   let prevc = 8 - Math.floor((p.inty+size/2)/size);
   
+  // new location
   let newrow = Math.floor((p.x+size/2)/size);
   let newcolumn = 8 - Math.floor((p.y+size/2)/size);
   
+  // notation
   let move = conversion(newrow) + "" + newcolumn;
   let fro = conversion(prevr) + "" + prevc;
   
+  // remove pieces, then define new piece
   chess.remove(fro);
   chess.remove(move);
   chess.put(p.data, move)
-  console.log(p.data)
   
-  updateboard();
+  updateboard(); // update p5.js board
    
   /*
   //                                          WIP                               
@@ -159,7 +163,7 @@ function mouseReleased() {
   */
 }
 
-class tile {
+class tile { // tile class
   constructor(x, y, col) {
     this.x = x;
     this.y = y;
@@ -173,7 +177,7 @@ class tile {
   }
 }
 
-class piece {
+class piece { // pieces class
    constructor(x, y, c, d) {
      this.x = x;
      this.y = y;
